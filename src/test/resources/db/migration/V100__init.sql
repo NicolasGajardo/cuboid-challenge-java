@@ -20,14 +20,14 @@ create table  "CUBOIDS" (
 
 alter table "CUBOIDS" add constraint "FKgwdq976r5nwtgf7smd9beq1ix" foreign key ("BAG_ID") references "BAGS";
 
-insert into "BAGS" ("ID", "VOLUME") values (1, 20.0);
-insert into "BAGS" ("ID", "VOLUME") values (2, 30.0);
-insert into "BAGS" ("ID", "VOLUME") values (3, 100.0);
-insert into "BAGS" ("ID", "VOLUME") values (4, 1.0);
+insert into "BAGS" ("ID", "VOLUME", "TITLE") values (1, 20.0, 'first bag');
+insert into "BAGS" ("ID", "VOLUME", "TITLE") values (2, 30.0, 'second bag');
+insert into "BAGS" ("ID", "VOLUME", "TITLE") values (3, 100.0, 'Third bag');
+insert into "BAGS" ("ID", "VOLUME", "TITLE") values (4, 1.0, 'Four bag');
 
-insert into "CUBOIDS" ("ID", "DEPTH", "HEIGHT", "WIDTH", "BAG_ID", "TITLE") 
-    values (1, 2.0, 3.0, 5.0, 1, 'first bag');
-insert into "CUBOIDS" ("ID", "DEPTH", "HEIGHT", "WIDTH", "BAG_ID", "TITLE") 
-    values (2, 2.0, 4.0, 4.0, 2, 'second bag');
-insert into "CUBOIDS" ("ID", "DEPTH", "HEIGHT", "WIDTH", "BAG_ID", "TITLE") 
-    values (3, 3.0, 3.0, 3.0, 3, 'Third bag');
+insert into "CUBOIDS" ("ID", "DEPTH", "HEIGHT", "WIDTH", "BAG_ID") 
+    values (1, 2.0, 3.0, 5.0, 1);
+insert into "CUBOIDS" ("ID", "DEPTH", "HEIGHT", "WIDTH", "BAG_ID") 
+    values (2, 2.0, 4.0, 4.0, 2);
+insert into "CUBOIDS" ("ID", "DEPTH", "HEIGHT", "WIDTH", "BAG_ID") 
+    values (3, 3.0, 3.0, 3.0, 3);
