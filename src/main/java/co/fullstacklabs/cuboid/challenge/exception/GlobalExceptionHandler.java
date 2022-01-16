@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ValidationError constraintViolationException(ConstraintViolationException ex) {
         ValidationError errors = new ValidationError();
-        for (ConstraintViolation violation : ex.getConstraintViolations()) {
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
             errors.addViolations(new ErrorDetails(violation.getMessage(), violation.getPropertyPath().toString()));
         }
         return errors;
@@ -38,6 +38,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ValidationError constraintViolationException(MethodArgumentNotValidException ex) {
+        ValidationError errors = new ValidationError();
+        for (FieldError violation : ex.getBindingResult().getFieldErrors()) {
+            errors.addViolations(new ErrorDetails(violation.getDefaultMessage(), violation.getField()));
+        }
+        return errors;
+    }
+
+    @ExceptionHandler(value = {Exception.class})
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ValidationError constraintViolationGlobalException(MethodArgumentNotValidException ex) {
         ValidationError errors = new ValidationError();
         for (FieldError violation : ex.getBindingResult().getFieldErrors()) {
             errors.addViolations(new ErrorDetails(violation.getDefaultMessage(), violation.getField()));
