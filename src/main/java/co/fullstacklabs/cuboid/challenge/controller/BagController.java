@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,20 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 import co.fullstacklabs.cuboid.challenge.dto.BagDTO;
 import co.fullstacklabs.cuboid.challenge.dto.NewBagDTO;
 import co.fullstacklabs.cuboid.challenge.service.BagService;
+
 /**
  * @author FullStack Labs
  * @version 1.0
  * @since 2021-10-22
  */
 @RestController
-@RequestMapping("/bags")
+@RequestMapping(value = "/bags", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BagController {
-
 
     private BagService service;
 
     @Autowired
-    public BagController(BagService service){
+    public BagController(BagService service) {
         this.service = service;
     }
 
