@@ -1,6 +1,7 @@
 package co.fullstacklabs.cuboid.challenge.service.impl;
 
 import co.fullstacklabs.cuboid.challenge.dto.BagDTO;
+import co.fullstacklabs.cuboid.challenge.dto.CuboidDTO;
 import co.fullstacklabs.cuboid.challenge.dto.NewBagDTO;
 import co.fullstacklabs.cuboid.challenge.exception.ResourceNotFoundException;
 import co.fullstacklabs.cuboid.challenge.model.Bag;
@@ -67,8 +68,17 @@ public class BagServiceImpl implements BagService {
     @Override
     @Transactional(readOnly = true)
     public BagDTO findById(long id) {
-        Bag bag = repository.findById(id).orElseThrow(
+        Bag bagEntity = repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Bag not found"));
-        return mapper.map(bag, BagDTO.class);
+
+        BagDTO bag = mapper.map(bagEntity, BagDTO.class);
+
+        Double cuboidsBagVolume = bag.getCuboids().stream().map(CuboidDTO::getVolume).reduce(0d, (volA , volB) -> volA + volB);
+        Double bagVolume = bag.getVolume();
+
+        bag.setPayloadVolume(cuboidsBagVolume);
+        bag.setAvailableVolume(bagVolume - cuboidsBagVolume);
+
+        return bag;
     }
 }
