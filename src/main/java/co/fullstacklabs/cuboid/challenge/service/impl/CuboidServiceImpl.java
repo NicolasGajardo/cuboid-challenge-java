@@ -80,7 +80,7 @@ public class CuboidServiceImpl implements CuboidService {
             // the update
             Bag bagEntity = this.bagRepository.getById(cuboid.getBagId());
             BagDTO bag = mapper.map(bagEntity, BagDTO.class);
-            Double oldCuboidVolume = bag.getCuboids().stream().filter(a -> a.getId() == cuboid.getId())
+            Double oldCuboidVolume = bag.getCuboids().stream().filter(a -> cuboid.getId().equals(a.getId()))
                     .map(CuboidDTO::getVolume).findFirst().get();
 
             if (bag.getAvailableVolume() - oldCuboidVolume > cuboid.getVolume()) {
@@ -96,8 +96,11 @@ public class CuboidServiceImpl implements CuboidService {
 
     @Override
     public void delete(Long cuboidId) {
-        
-
+        if (repository.existsById(cuboidId)){
+            repository.deleteById(cuboidId);
+          } else {
+            throw new ResourceNotFoundException("Cuboid not found");
+        }
     }
 
 }
