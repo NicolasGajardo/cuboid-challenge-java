@@ -42,38 +42,163 @@ class CuboidServiceTest {
 
     @Test
     void updateWithSuccess() {
-        assertTrue(true);
+        Bag bag = BagTestBuilder.builder().id(10L).title("title").volume(200d).build();
+        Cuboid cuboid = CuboidTestBuilder.builder().width(2f).height(3f).depth(4f).bag(bag).build();
+        CuboidDTO cuboidDTO = CuboidDTO.builder()
+                .id(1l)
+                .width(cuboid.getWidth()).height(cuboid.getHeight())
+                .depth(cuboid.getDepth()).bagId(bag.getId()).build();
+        Mockito.when(mapper.map(cuboidDTO, Cuboid.class)).thenReturn(cuboid);
+        Mockito.when(bagRepository.findById(cuboidDTO.getBagId())).thenReturn(Optional.of(bag));
+        Mockito.when(repository.save(Mockito.any(Cuboid.class))).thenReturn(cuboid);
+
+        cuboidService.update(cuboidDTO);
+
+        ArgumentCaptor<Cuboid> bagCaptor = ArgumentCaptor.forClass(Cuboid.class);
+        Mockito.verify(mapper).map(cuboidDTO, Cuboid.class);
+        Mockito.verify(bagRepository).findById(cuboidDTO.getBagId());
+        Mockito.verify(repository).save(bagCaptor.capture());
+        Mockito.verify(mapper).map(cuboid, CuboidDTO.class);
+
+        assertEquals(cuboid.getHeight(), bagCaptor.getValue().getHeight());
+        assertEquals(cuboid.getWidth(), bagCaptor.getValue().getWidth());
+        assertEquals(cuboid.getDepth(), bagCaptor.getValue().getDepth());
     }
 
     @Test
     void updateWithCuboidNotFound() {
-        assertTrue(true);
+        Bag bag = BagTestBuilder.builder().id(10L).title("title").volume(200d).build();
+        Cuboid cuboid = CuboidTestBuilder.builder().width(2f).height(3f).depth(4f).bag(bag).build();
+        CuboidDTO cuboidDTO = CuboidDTO.builder()
+                .id(999l)
+                .width(cuboid.getWidth()).height(cuboid.getHeight())
+                .depth(cuboid.getDepth()).bagId(bag.getId()).build();
+        Mockito.when(mapper.map(cuboidDTO, Cuboid.class)).thenReturn(cuboid);
+        Mockito.when(bagRepository.findById(cuboidDTO.getBagId())).thenReturn(Optional.of(bag));
+        Mockito.when(repository.save(Mockito.any(Cuboid.class))).thenReturn(cuboid);
+
+        cuboidService.update(cuboidDTO);
+
+        ArgumentCaptor<Cuboid> bagCaptor = ArgumentCaptor.forClass(Cuboid.class);
+        Mockito.verify(mapper).map(cuboidDTO, Cuboid.class);
+        Mockito.verify(bagRepository).findById(cuboidDTO.getBagId());
+        Mockito.verify(repository).save(bagCaptor.capture());
+        Mockito.verify(mapper).map(cuboid, CuboidDTO.class);
+
+        assertEquals(cuboid.getHeight(), bagCaptor.getValue().getHeight());
+        assertEquals(cuboid.getWidth(), bagCaptor.getValue().getWidth());
+        assertEquals(cuboid.getDepth(), bagCaptor.getValue().getDepth());
     }
 
     @Test
     void updateWithBagNotFound() {
-        assertTrue(true);
+        Bag bag = BagTestBuilder.builder().id(10L).title("title").volume(200d).build();
+        Cuboid cuboid = CuboidTestBuilder.builder().width(2f).height(3f).depth(4f).bag(bag).build();
+        CuboidDTO cuboidDTO = CuboidDTO.builder()
+                .id(1l)
+                .width(cuboid.getWidth()).height(cuboid.getHeight())
+                .depth(cuboid.getDepth()).bagId(9999l).build();
+        Mockito.when(mapper.map(cuboidDTO, Cuboid.class)).thenReturn(cuboid);
+        Mockito.when(bagRepository.findById(cuboidDTO.getBagId())).thenReturn(Optional.of(bag));
+        Mockito.when(repository.save(Mockito.any(Cuboid.class))).thenReturn(cuboid);
+
+        cuboidService.update(cuboidDTO);
+
+        ArgumentCaptor<Cuboid> bagCaptor = ArgumentCaptor.forClass(Cuboid.class);
+        Mockito.verify(mapper).map(cuboidDTO, Cuboid.class);
+        Mockito.verify(bagRepository).findById(cuboidDTO.getBagId());
+        Mockito.verify(repository).save(bagCaptor.capture());
+        Mockito.verify(mapper).map(cuboid, CuboidDTO.class);
+
+        assertEquals(cuboid.getHeight(), bagCaptor.getValue().getHeight());
+        assertEquals(cuboid.getWidth(), bagCaptor.getValue().getWidth());
+        assertEquals(cuboid.getDepth(), bagCaptor.getValue().getDepth());
     }
 
     @Test
     void updateWithBagNotEnoughCapacity() {
-        assertTrue(true);
+
+        Bag bag = BagTestBuilder.builder().id(10L).title("title").volume(1d).build();
+        Cuboid cuboid = CuboidTestBuilder.builder().width(2f).height(3f).depth(4f).bag(bag).build();
+        CuboidDTO cuboidDTO = CuboidDTO.builder()
+                .id(1l)
+                .width(cuboid.getWidth()).height(cuboid.getHeight())
+                .depth(cuboid.getDepth()).bagId(bag.getId()).build();
+        Mockito.when(mapper.map(cuboidDTO, Cuboid.class)).thenReturn(cuboid);
+        Mockito.when(bagRepository.findById(cuboidDTO.getBagId())).thenReturn(Optional.of(bag));
+        Mockito.when(repository.save(Mockito.any(Cuboid.class))).thenReturn(cuboid);
+
+        cuboidService.update(cuboidDTO);
+
+        ArgumentCaptor<Cuboid> bagCaptor = ArgumentCaptor.forClass(Cuboid.class);
+        Mockito.verify(mapper).map(cuboidDTO, Cuboid.class);
+        Mockito.verify(bagRepository).findById(cuboidDTO.getBagId());
+        Mockito.verify(repository).save(bagCaptor.capture());
+        Mockito.verify(mapper).map(cuboid, CuboidDTO.class);
+
+        assertEquals(cuboid.getHeight(), bagCaptor.getValue().getHeight());
+        assertEquals(cuboid.getWidth(), bagCaptor.getValue().getWidth());
+        assertEquals(cuboid.getDepth(), bagCaptor.getValue().getDepth());
+
     }
+
     @Test
     void deleteWithSuccess() {
-        assertTrue(true);
+        Bag bag = BagTestBuilder.builder().id(10L).title("title").volume(1d).build();
+        Cuboid cuboid = CuboidTestBuilder.builder().width(2f).height(3f).depth(4f).bag(bag).build();
+        CuboidDTO cuboidDTO = CuboidDTO.builder()
+                .id(1l)
+                .width(cuboid.getWidth()).height(cuboid.getHeight())
+                .depth(cuboid.getDepth()).bagId(bag.getId()).build();
+        Mockito.when(mapper.map(cuboidDTO, Cuboid.class)).thenReturn(cuboid);
+        Mockito.when(bagRepository.findById(cuboidDTO.getBagId())).thenReturn(Optional.of(bag));
+        Mockito.when(repository.save(Mockito.any(Cuboid.class))).thenReturn(cuboid);
+
+        cuboidService.delete(cuboidDTO.getId());
+
+        ArgumentCaptor<Cuboid> bagCaptor = ArgumentCaptor.forClass(Cuboid.class);
+        Mockito.verify(mapper).map(cuboidDTO, Cuboid.class);
+        Mockito.verify(bagRepository).findById(cuboidDTO.getBagId());
+        Mockito.verify(repository).save(bagCaptor.capture());
+        Mockito.verify(mapper).map(cuboid, CuboidDTO.class);
+
+        assertEquals(cuboid.getHeight(), bagCaptor.getValue().getHeight());
+        assertEquals(cuboid.getWidth(), bagCaptor.getValue().getWidth());
+        assertEquals(cuboid.getDepth(), bagCaptor.getValue().getDepth());
     }
 
     @Test
     void deleteWithErrorNoCuboid() {
-        assertTrue(true);
+
+        Bag bag = BagTestBuilder.builder().id(10L).title("title").volume(1d).build();
+        Cuboid cuboid = CuboidTestBuilder.builder().width(2f).height(3f).depth(4f).bag(bag).build();
+        CuboidDTO cuboidDTO = CuboidDTO.builder()
+                .id(1l)
+                .width(cuboid.getWidth()).height(cuboid.getHeight())
+                .depth(cuboid.getDepth()).bagId(bag.getId()).build();
+        Mockito.when(mapper.map(cuboidDTO, Cuboid.class)).thenReturn(cuboid);
+        Mockito.when(bagRepository.findById(cuboidDTO.getBagId())).thenReturn(Optional.of(bag));
+        Mockito.when(repository.save(Mockito.any(Cuboid.class))).thenReturn(cuboid);
+
+        cuboidService.delete(99999l);
+
+        ArgumentCaptor<Cuboid> bagCaptor = ArgumentCaptor.forClass(Cuboid.class);
+        Mockito.verify(mapper).map(cuboidDTO, Cuboid.class);
+        Mockito.verify(bagRepository).findById(cuboidDTO.getBagId());
+        Mockito.verify(repository).save(bagCaptor.capture());
+        Mockito.verify(mapper).map(cuboid, CuboidDTO.class);
+
+        assertEquals(cuboid.getHeight(), bagCaptor.getValue().getHeight());
+        assertEquals(cuboid.getWidth(), bagCaptor.getValue().getWidth());
+        assertEquals(cuboid.getDepth(), bagCaptor.getValue().getDepth());
+
     }
 
     /************************************************************
-     *                                                           *
-     * DO NOT change the tests BELOW, implement the test ABOVE   *
-     *                                                           *
-    *************************************************************/
+     * *
+     * DO NOT change the tests BELOW, implement the test ABOVE *
+     * *
+     *************************************************************/
     @Test
     void createWithBagNotEnoughCapacity() {
         Bag bag = BagTestBuilder.builder().id(30L).title("title").volume(20d).build();
@@ -85,6 +210,7 @@ class CuboidServiceTest {
         Mockito.when(bagRepository.findById(cuboidDTO.getBagId())).thenReturn(Optional.of(bag));
         Assertions.assertThrows(UnprocessableEntityException.class, () -> cuboidService.create(cuboidDTO));
     }
+
     @Test
     void createWithSuccess() {
         Bag bag = BagTestBuilder.builder().id(10L).title("title").volume(200d).build();
