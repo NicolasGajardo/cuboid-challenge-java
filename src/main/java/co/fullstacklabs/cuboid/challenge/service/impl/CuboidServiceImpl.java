@@ -1,7 +1,9 @@
 package co.fullstacklabs.cuboid.challenge.service.impl;
 
+import co.fullstacklabs.cuboid.challenge.dto.BagDTO;
 import co.fullstacklabs.cuboid.challenge.dto.CuboidDTO;
 import co.fullstacklabs.cuboid.challenge.exception.ResourceNotFoundException;
+import co.fullstacklabs.cuboid.challenge.exception.UnprocessableEntityException;
 import co.fullstacklabs.cuboid.challenge.model.Bag;
 import co.fullstacklabs.cuboid.challenge.model.Cuboid;
 import co.fullstacklabs.cuboid.challenge.repository.BagRepository;
@@ -31,14 +33,15 @@ public class CuboidServiceImpl implements CuboidService {
 
     @Autowired
     public CuboidServiceImpl(@Autowired CuboidRepository repository,
-                             BagRepository bagRepository, ModelMapper mapper) {
+            BagRepository bagRepository, ModelMapper mapper) {
         this.repository = repository;
         this.bagRepository = bagRepository;
         this.mapper = mapper;
     }
 
     /**
-     * Create a new cuboid and add it to its bag checking the bag available capacity.
+     * Create a new cuboid and add it to its bag checking the bag available
+     * capacity.
      *
      * @param cuboidDTO DTO with cuboid properties to be persisted
      * @return CuboidDTO with the data created
@@ -55,6 +58,7 @@ public class CuboidServiceImpl implements CuboidService {
 
     /**
      * List all cuboids
+     * 
      * @return List<CuboidDTO>
      */
     @Override
@@ -64,10 +68,36 @@ public class CuboidServiceImpl implements CuboidService {
         return cuboids.stream().map(bag -> mapper.map(bag, CuboidDTO.class))
                 .collect(Collectors.toList());
     }
+
     private Bag getBagById(long bagId) {
         return bagRepository.findById(bagId).orElseThrow(() -> new ResourceNotFoundException("Bag not found"));
     }
 
+    @Override
+    public CuboidDTO update(CuboidDTO cuboid) {
+        if (repository.existsById(cuboid.getId())
+                && this.bagRepository.existsById(cuboid.getBagId())) {
+            // the update
+            Bag bagEntity = this.bagRepository.getById(cuboid.getBagId());
+            BagDTO bag = mapper.map(bagEntity, BagDTO.class);
+            Double oldCuboidVolume = bag.getCuboids().stream().filter(a -> a.getId() == cuboid.getId())
+                    .map(CuboidDTO::getVolume).findFirst().get();
 
-  
+            if (bag.getAvailableVolume() - oldCuboidVolume > cuboid.getVolume()) {
+                return mapper.map(this.repository.save(mapper.map(cuboid, Cuboid.class)), CuboidDTO.class);
+            } else {
+                throw new UnprocessableEntityException("The cuboid doesn't fit");
+            }
+
+        } else {
+            throw new ResourceNotFoundException("Cuboid not found");
+        }
+    }
+
+    @Override
+    public void delete(Long cuboidId) {
+        
+
+    }
+
 }
