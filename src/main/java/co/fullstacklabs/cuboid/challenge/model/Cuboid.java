@@ -1,6 +1,7 @@
 package co.fullstacklabs.cuboid.challenge.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import javax.persistence.*;
 @Table(name = "CUBOIDS")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Cuboid {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
