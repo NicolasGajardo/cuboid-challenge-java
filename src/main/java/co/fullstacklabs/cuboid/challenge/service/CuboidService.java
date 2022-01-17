@@ -12,6 +12,10 @@ import java.util.List;
 public interface CuboidService {
     CuboidDTO create(CuboidDTO cuboid);
 
+    CuboidDTO update(CuboidDTO cuboid);
+
+    void delete(Long cuboidId);
+
     List<CuboidDTO> getAll();
 
 }
