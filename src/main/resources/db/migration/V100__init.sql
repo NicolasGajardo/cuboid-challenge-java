@@ -26,8 +26,8 @@ insert into "BAGS" ("ID", "VOLUME", "TITLE") values (3, 100.0, 'Third bag');
 insert into "BAGS" ("ID", "VOLUME", "TITLE") values (4, 1.0, 'Four bag');
 
 insert into "CUBOIDS" ("ID", "DEPTH", "HEIGHT", "WIDTH", "BAG_ID") 
-    values (1, 2.0, 3.0, 5.0, 1);
+    values (1, 2.0, 3.0, 1.0, 1);
 insert into "CUBOIDS" ("ID", "DEPTH", "HEIGHT", "WIDTH", "BAG_ID") 
-    values (2, 2.0, 4.0, 4.0, 2);
+    values (2, 2.0, 4.0, 3.0, 2);
 insert into "CUBOIDS" ("ID", "DEPTH", "HEIGHT", "WIDTH", "BAG_ID") 
-    values (3, 3.0, 3.0, 3.0, 3);
+    values (3, 3.0, 3.0, 2.0, 3);
